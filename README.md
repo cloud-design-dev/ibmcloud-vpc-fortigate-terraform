@@ -10,4 +10,5 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
  - [x] Fortigate VNF 
  - [x] 2 Ubuntu 20 test VMs
  - [ ] Flowlogs for each instance interface
+ - [ ] Subnets added to Fortigate routing table
  - [ ] Verbose output of all resources 
