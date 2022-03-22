@@ -25,6 +25,6 @@ variable "ssh_key" {
 variable "tags" {
   description = "Default set of tags to add to all supported resources."
   type        = list(string)
-  default     = []
+  default     = ["deployed_from:terraform"]
 }
 

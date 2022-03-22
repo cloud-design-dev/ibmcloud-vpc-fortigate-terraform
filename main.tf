@@ -54,17 +54,17 @@ module "vm2_subnet" {
 }
 
 module "fortigate" {
-  depends_on     = [module.vpc]
-  source         = "git::https://github.com/cloud-design-dev/ibm-fortigate-terraform-deploy.git"
-  cluster_name   = var.project_prefix
-  ssh_public_key = var.ssh_key
-  region         = var.region
-  vpc_id         = module.vpc.lab_vpc_id
-  resource_group_id         = data.ibm_resource_group.lab.id
-  zone           = data.ibm_is_zones.regional.zones[0]
-  subnet1        = module.fortigate_port_1_subnet_public.subnet_id
-  subnet2        = module.fortigate_port_2_subnet_private.subnet_id
-  security_group = module.vpc.vpc_info.default_security_group
+  depends_on        = [module.vpc]
+  source            = "git::https://github.com/cloud-design-dev/ibm-fortigate-terraform-deploy.git"
+  cluster_name      = var.project_prefix
+  ssh_public_key    = var.ssh_key
+  region            = var.region
+  vpc_id            = module.vpc.lab_vpc_id
+  resource_group_id = data.ibm_resource_group.lab.id
+  zone              = data.ibm_is_zones.regional.zones[0]
+  subnet1           = module.fortigate_port_1_subnet_public.subnet_id
+  subnet2           = module.fortigate_port_2_subnet_private.subnet_id
+  security_group    = module.vpc.vpc_info.default_security_group
 }
 
 module "vm1" {
@@ -92,7 +92,7 @@ module "vm2" {
 }
 
 module "routing_table_update" {
-  depends_on = [module.fortigate]
+  depends_on                 = [module.fortigate]
   source                     = "./routing"
   routing_table_name         = module.fortigate.fgt_routing_table
   vpc_id                     = module.vpc.lab_vpc_id
