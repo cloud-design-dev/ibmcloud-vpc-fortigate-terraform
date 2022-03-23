@@ -21,6 +21,11 @@ variable "ssh_key" {
   default     = ""
 }
 
+variable "cos_instance" {
+  description = "The COS instance where Flowlogs collector buckets will be created"
+  type        = string
+  default     = ""
+}
 
 variable "tags" {
   description = "Default set of tags to add to all supported resources."
