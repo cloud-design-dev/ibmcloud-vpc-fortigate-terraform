@@ -3,19 +3,41 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
 
 ![Version 1 of deployment](https://dsc.cloud/quickshare/fortigate-single-zone-v1.png)
 
-## Currently Done
- - [x] VPC
- - [x] 2 subnets for Fortigate VNF
- - [x] 2 subnets for testing VMs
- - [x] Fortigate VNF 
- - [x] 2 Ubuntu 20 test VMs
- - [x] COS buckets for Fortigate Port 1 and Port 2 interfaces
- - [x] COS buckets for VM 1 and VM 2 subnets
- - [x] Subnets added to Fortigate routing table
- - [x] Routing table updated for VM 1 and VM 2 subnets to point to Fortigate Port 1 IP
- - [ ] Verbose output of all resources 
- - [x] Ability to use existing VPC as deployment target
- - [ ] Ability to deploy COS if no `cos_instance` variable is set 
+## Wish List
+
+#### If creating a new VPC for the deployment
+
+- [x] Create VPC across 3 zones
+- [x] Create 2 subnets for Fortigate VNF (port 1 and port 2)
+- [x] Create 2 subnets for testing VMs
+- [x] Create Fortigate VNF and associated routing tables 
+- [x] Create 2 Ubuntu 20 test VMs
+- [x] Create COS buckets for Fortigate Port 1 and Port 2 interfaces
+- [x] Create COS buckets for VM 1 and VM 2 subnets
+- [x] Attach Subnets to newly created Fortigate routing tables
+- [x] Routing table updated for VM 1 and VM 2 subnets to point to Fortigate Port 1 Private IP
+- [x] Create an Interface level VPC Flowlog collector for each Fortigate interface (port 1 and port 2)
+- [x] Create a Subnet level VPC Flowlog collector for each VM subnet.
+- [ ] Ability to deploy COS if no `cos_instance` variable is set 
+- [ ] Ability to disable the deployment of the test VMs
+
+#### If using an existing VPC for the deployment
+
+- [x] Ability to use existing VPC as deployment target
+- [x] Create 2 subnets for Fortigate VNF (port 1 and port 2)
+- [x] Create 2 subnets for testing VMs
+- [x] Create Fortigate VNF and associated routing tables 
+- [x] Create 2 Ubuntu 20 test VMs
+- [x] Create COS buckets for Fortigate Port 1 and Port 2 interfaces
+- [x] Create COS buckets for VM 1 and VM 2 subnets
+- [x] Attach Subnets to newly created Fortigate routing tables
+- [x] Routing table updated for VM 1 and VM 2 subnets to point to Fortigate Port 1 Private IP
+- [x] Create an Interface level VPC Flowlog collector for each Fortigate interface (port 1 and port 2)
+- [x] Create a Subnet level VPC Flowlog collector for each VM subnet
+- [ ] Ability to deploy COS if no `cos_instance` variable is set
+- [ ] Ability to use existing Subnets for Fortigate VNF
+- [ ] Ability to use existing Subnets for test VMs
+- [ ] Ability to disable the deployment of the test VMs
 
 ## Variables
 
@@ -42,3 +64,27 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
 | fortigate\_port2\_collector\_bucket | Bucket name for Fortigate VNF Port 2 interface flowlog collector |
 | vm1\_subnet\_collector\_bucket | Bucket name for VM 1 Subnet flowlog collector |
 | vm2\_subnet\_collector\_bucket | Bucket name for VM 2 Subnet flowlog collector |
+
+---
+
+## Deploy Fortigate VNF lab environment
+
+1. Copy `terraform.tfvars.example` to `terraform.tfvars`:
+
+   ```sh
+   cp terraform.tfvars.example terraform.tfvars
+   ```
+
+1. Edit `terraform.tfvars` to match your environment. See [variables](#variables) listed above for available options.
+1. Plan deployment:
+
+   ```sh
+   terraform init
+   terraform plan -out default.tfplan
+   ```
+
+1. Apply deployment:
+
+   ```sh
+   terraform apply default.tfplan
+   ```
