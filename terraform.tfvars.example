@@ -1,0 +1,6 @@
+existing_resource_group_name = ""
+existing_ssh_key_name        = ""
+region                       = ""
+cos_instance                 = ""
+project_prefix               = ""
+existing_vpc_name            = ""
