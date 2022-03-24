@@ -14,6 +14,8 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
  - [x] Subnets added to Fortigate routing table
  - [x] Routing table updated for VM 1 and VM 2 subnets to point to Fortigate Port 1 IP
  - [ ] Verbose output of all resources 
+ - [x] Ability to use existing VPC as deployment target
+ - [ ] Ability to deploy COS if no `cos_instance` variable is set 
 
 ## Variables
 
@@ -21,9 +23,10 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
 |------|-------------|------|---------|:--------:|
 | region | Name that will be prepended to all deployed resources and used as a project tag. | `string` | n/a | yes |
 | project\_prefix | Name that will be prepended to all deployed resources and used as a project tag. | `string` | n/a | yes |
-| resource\_group | Name of the resource group to associate with the deployed instances. | `string` | n/a | yes |
-| ssh\_key | Name of an existing SSH key that will be added to all compute instances. | `string` | n/a | yes |
 | cos\_instance | Name of an existing COS instance to use for Flowlog buckets | `string` | n/a | yes |
+| existing\_resource\_group\_name | Name of an existing Resource Group to associate with the deployed instances. If none provided, a new one will be created. | `string` | n/a | no |
+| existing\_vpc\_name | Name of an existing VPC. If none provided, a new one will be created. | `string` | n/a | no |
+| existing\_ssh\_key\_name | Name of an existing SSH Key to associate with the deployed instances. If none provided, a new one will be created. | `string` | n/a | no |
 | tags | Tags to add to all deployed resources | `string` | `deployed_from:terraform` | no |
 
 ## Outputs
