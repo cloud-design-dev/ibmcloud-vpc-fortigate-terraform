@@ -28,6 +28,7 @@ variable "cos_instance" {
 variable "existing_vpc_name" {
   description = "Name of an existing VPC to use for the Fortigate deployment."
   type        = string
+  default     = ""
 }
 
 variable "tags" {

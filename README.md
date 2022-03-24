@@ -67,7 +67,17 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
 
 ---
 
-## Deploy Fortigate VNF lab environment
+## Deployment options for the Fortigate VNF lab environment
+
+You can deploy this code if you have Terraform installed locally, or use the [IBM Cloud Schematics]() service.
+
+#### Deploy with Terraform locally
+
+1. Clone project repository and target this branch
+
+    ```sh
+    git clone -b existing-vpc https://github.com/cloud-design-dev/ibmcloud-vpc-fortigate-terraform.git
+    ```
 
 1. Copy `terraform.tfvars.example` to `terraform.tfvars`:
 
@@ -88,3 +98,28 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
    ```sh
    terraform apply default.tfplan
    ```
+
+#### Deploy with Terraform locally
+
+1. Click the following link to deploy the resources using IBMs hosted IaC platform.
+
+    [:beginner: Deploy using IBM Cloud Schematics](https://cloud.ibm.com/schematics/workspaces/create?repository=https://github.com/cloud-design-dev/ibmcloud-vpc-fortigate-terraform/tree/existing-vpc&terraform_version=terraform_v1.0&workspace_name=fortigate-vnf-lab-workspace)
+
+1. Finish configuring Schematics workspace. You will need to provide the following information to complete the creation of the Schematics Workspace:
+
+    - (**Required**) Resource Group to be used for the Schematics workspace. This does not have to match the Resource Group used for the Fortigate lab resources.
+    - (**Required**) Select Location where the Schematics Workspace actions will be executed. This does not have to match the Location where the Fortigate lab resources will be deployed.
+    - (**Optional**) Tags that will be added to the Schematics Workspace.
+    - (**Optional**) A description for the Schematics Workspaces.
+
+    ![](images/configure.png)
+
+1. Configure Schematics Workspace variables
+
+After the Workspace is created, you will need to set the required variables. See [variables](#variables) listed above for available options.
+
+![Set workspace variables](images/edit-vars.png)
+
+1. Generate and apply a Workspace plan
+
+Once you have all your variables set, you can generate a Workspace (Terraform) plan action. If plan is successfully generated you can Apply the plan to deploy the lab resources.
