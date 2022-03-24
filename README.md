@@ -1,45 +1,17 @@
-# ibmcloud-vpc-fortigate-terraform
-Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
+# IBM Cloud VPC Fortigate VNF Lab
+
+This repository contains Terraform code to create a lab for testing the IBM Cloud Fortigate VNF offering.
 
 ![Version 1 of deployment](https://dsc.cloud/quickshare/fortigate-single-zone-v1.png)
 
-## Wish List
+The deployment has 2 supported deployment models:
 
-#### If creating a new VPC for the deployment
-
-- [x] Create VPC across 3 zones
-- [x] Create 2 subnets for Fortigate VNF (port 1 and port 2)
-- [x] Create 2 subnets for testing VMs
-- [x] Create Fortigate VNF and associated routing tables 
-- [x] Create 2 Ubuntu 20 test VMs
-- [x] Create COS buckets for Fortigate Port 1 and Port 2 interfaces
-- [x] Create COS buckets for VM 1 and VM 2 subnets
-- [x] Attach Subnets to newly created Fortigate routing tables
-- [x] Routing table updated for VM 1 and VM 2 subnets to point to Fortigate Port 1 Private IP
-- [x] Create an Interface level VPC Flowlog collector for each Fortigate interface (port 1 and port 2)
-- [x] Create a Subnet level VPC Flowlog collector for each VM subnet.
-- [ ] Ability to deploy COS if no `cos_instance` variable is set 
-- [ ] Ability to disable the deployment of the test VMs
-
-#### If using an existing VPC for the deployment
-
-- [x] Ability to use existing VPC as deployment target
-- [x] Create 2 subnets for Fortigate VNF (port 1 and port 2)
-- [x] Create 2 subnets for testing VMs
-- [x] Create Fortigate VNF and associated routing tables 
-- [x] Create 2 Ubuntu 20 test VMs
-- [x] Create COS buckets for Fortigate Port 1 and Port 2 interfaces
-- [x] Create COS buckets for VM 1 and VM 2 subnets
-- [x] Attach Subnets to newly created Fortigate routing tables
-- [x] Routing table updated for VM 1 and VM 2 subnets to point to Fortigate Port 1 Private IP
-- [x] Create an Interface level VPC Flowlog collector for each Fortigate interface (port 1 and port 2)
-- [x] Create a Subnet level VPC Flowlog collector for each VM subnet
-- [ ] Ability to deploy COS if no `cos_instance` variable is set
-- [ ] Ability to use existing Subnets for Fortigate VNF
-- [ ] Ability to use existing Subnets for test VMs
-- [ ] Ability to disable the deployment of the test VMs
+- [Run Terraform locally](#deploy-with-terraform-locally)
+- [IBM Cloud Schematics](#deploy-with-ibm-cloud-schematics)
 
 ## Variables
+
+List of required and optional variables for the lab environment:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -52,6 +24,7 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
 | tags | Tags to add to all deployed resources | `string` | `deployed_from:terraform` | no |
 
 ## Outputs
+
 
 | Name | Description |
 |------|-------------|
@@ -67,37 +40,56 @@ Lab deployment for using the Fortigate VNF in an IBM Cloud VPC
 
 ---
 
-## Deployment options for the Fortigate VNF lab environment
-
-You can deploy this code if you have Terraform installed locally, or use the [IBM Cloud Schematics]() service.
-
 ### Deploy with Terraform locally
 
-1. Clone project repository and target this branch
 
-    ```sh
-    git clone -b existing-vpc https://github.com/cloud-design-dev/ibmcloud-vpc-fortigate-terraform.git
-    ```
+#### 1. Clone project repository and target this branch
 
-1. Copy `terraform.tfvars.example` to `terraform.tfvars`:
+```sh
+git clone -b existing-vpc https://github.com/cloud-design-dev/ibmcloud-vpc-fortigate-terraform.git
+cd ibmcloud-vpc-fortigate-terraform
+```
 
-   ```sh
-   cp terraform.tfvars.example terraform.tfvars
-   ```
+#### 2. Copy `terraform.tfvars.example` to `terraform.tfvars`
 
-1. Edit `terraform.tfvars` to match your environment. See [variables](#variables) listed above for available options.
-1. Plan deployment:
+```sh
+cp terraform.tfvars.example terraform.tfvars
+```
 
-   ```sh
-   terraform init
-   terraform plan -out default.tfplan
-   ```
+#### 3. Edit `terraform.tfvars` to match your environment. 
 
-1. Apply deployment:
+See [variables](#variables) listed below for available options.
 
-   ```sh
-   terraform apply default.tfplan
-   ```
+#### 4. Plan deployment
+
+Intitialize the terraform environment and generate a plan:
+
+```sh
+terraform init 
+terraform plan -out default.tfplan
+```
+
+#### 5. Apply Terraform plan
+
+If your plan was generated successfully, you can apply it to deploy the lab resources.
+
+```sh
+terraform apply default.tfplan
+```
+
+After the resources are created, you should see (similar) terraform output with details about your environment:
+
+```shell
+fortigate_admin_password = "xxx-xxxxxx-xxxx-x-xxxxx"
+fortigate_admin_username = "admin"
+fortigate_port1_collector_bucket = "ftg-vnf-v4-eu-de-fortiage-port-1-flowlogs-collector-bucket"
+fortigate_port2_collector_bucket = "ftg-vnf-v4-eu-de-fortiage-port-2-flowlogs-collector-bucket"
+fortigate_vnf_public_ip = "149.x.x."
+vm1_private_ip_address = "10.243.1.4"
+vm1_subnet_collector_bucket = "ftg-vnf-v4-eu-de-vm1-subnet-flowlogs-collector-bucket"
+vm2_private_ip_address = "10.243.1.5"
+vm2_subnet_collector_bucket = "ftg-vnf-v4-eu-de-vm2-subnet-flowlogs-collector-bucket"
+```
 
 ### Deploy with IBM Cloud Schematics 
 
