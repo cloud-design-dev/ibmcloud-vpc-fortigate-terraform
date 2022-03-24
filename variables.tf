@@ -4,10 +4,9 @@ variable "region" {
   default     = ""
 }
 
-variable "resource_group" {
-  description = "Resource group for deployed assets."
+variable "existing_resource_group_name" {
+  description = "Name of an existing IBM Cloud Resource group for the project. If none is provided a new one will be created and used for the lab resources."
   type        = string
-  default     = ""
 }
 
 variable "project_prefix" {
@@ -15,16 +14,20 @@ variable "project_prefix" {
   type        = string
   default     = ""
 }
-variable "ssh_key" {
-  description = "SSH key in the VPC region that will be added to the Fortigate and Test VMs"
+
+variable "existing_ssh_key_name" {
+  description = "Name of an SSH key that has already been added to the VPC region. If none provided a new one will be created and added to the Fortigate and Test VMs. The newly generated key is also added when you supply an existing key."
   type        = string
-  default     = ""
 }
 
 variable "cos_instance" {
   description = "The COS instance where Flowlogs collector buckets will be created"
   type        = string
-  default     = ""
+}
+
+variable "existing_vpc_name" {
+  description = "Name of an existing VPC to use for the Fortigate deployment."
+  type        = string
 }
 
 variable "tags" {

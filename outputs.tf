@@ -27,5 +27,5 @@ output "vm2_subnet_collector_bucket" {
 }
 
 output "List_Routing_Tables_For_VPC" {
-  value = "ibmcloud is vpc-routing-tables ${module.vpc.lab_vpc_id}"
+  value = "ibmcloud is vpc-routing-tables ${local.vpc_id}"
 }

@@ -3,16 +3,23 @@ data "ibm_is_zones" "regional" {
 }
 
 data "ibm_resource_group" "lab" {
-  name = var.resource_group
+  count = var.existing_resource_group_name != "" ? 1 : 0
+  name  = var.existing_resource_group_name
 }
 
-data "ibm_is_ssh_key" "regional" {
-  name = var.ssh_key
+data "ibm_is_ssh_key" "existing_key" {
+  count = var.existing_ssh_key_name != "" ? 1 : 0
+  name  = var.existing_ssh_key_name
 }
 
 data "ibm_resource_instance" "cos_instance" {
   name              = var.cos_instance
-  resource_group_id = data.ibm_resource_group.lab.id
+  resource_group_id = local.resource_group_id
   service           = "cloud-object-storage"
   location          = "global"
+}
+
+data "ibm_is_vpc" "existing_vpc" {
+  count = var.existing_vpc_name != "" ? 1 : 0
+  name  = var.existing_vpc_name
 }
