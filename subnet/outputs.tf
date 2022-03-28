@@ -5,3 +5,7 @@ output "subnet_id" {
 output "cidr_block" {
   value = ibm_is_subnet.lab.ipv4_cidr_block
 }
+
+output "subnet" {
+  value = ibm_is_subnet.lab
+}

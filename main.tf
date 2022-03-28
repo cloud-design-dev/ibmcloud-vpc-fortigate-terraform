@@ -5,6 +5,7 @@ locals {
   vpc_default_network_acl    = var.existing_vpc_name != "" ? data.ibm_is_vpc.existing_vpc.0.default_network_acl : module.vpc.0.vpc_info.default_network_acl
   vpc_default_routing_table  = var.existing_vpc_name != "" ? data.ibm_is_vpc.existing_vpc.0.default_routing_table : module.vpc.0.vpc_info.default_routing_table
   vpc_default_security_group = var.existing_vpc_name != "" ? data.ibm_is_vpc.existing_vpc.0.default_security_group : module.vpc.0.vpc_info.default_security_group
+  fortigate_port1_subnet_id  = var.existing_subnet_name != "" ? data.ibm_is_subnet.existing_subnet.0.id : module.fortigate_port_1_subnet_public.0.subnet_id
 }
 
 ## If no existing Resource Group name specified, a new one is created for the project
@@ -38,6 +39,7 @@ module "vpc" {
 }
 
 module "fortigate_port_1_subnet_public" {
+  count                     = var.existing_subnet_name != "" ? 0 : 1
   depends_on                = [module.vpc]
   source                    = "./subnet"
   name                      = "${var.project_prefix}-port1-subnet"
@@ -91,7 +93,7 @@ module "fortigate" {
   vpc_id            = local.vpc_id
   resource_group_id = local.resource_group_id
   zone              = data.ibm_is_zones.regional.zones[0]
-  subnet1           = module.fortigate_port_1_subnet_public.subnet_id
+  subnet1           = local.fortigate_port1_subnet_id
   subnet2           = module.fortigate_port_2_subnet_private.subnet_id
   security_group    = local.vpc_default_security_group
 }
@@ -143,7 +145,7 @@ module "routing_table_updates" {
   vm1_subnet_id              = module.vm1_subnet.subnet_id
   vm2_subnet_id              = module.vm2_subnet.subnet_id
   vm1_subnet_cidr            = module.vm1_subnet.cidr_block
-  vm2_subnet_cidr            = module.vm1_subnet.cidr_block
+  vm2_subnet_cidr            = module.vm2_subnet.cidr_block
   vm1_subnet_routing_table   = module.fortigate.fgt_vm1_routing_table.routing_table
   vm2_subnet_routing_table   = module.fortigate.fgt_vm2_routing_table.routing_table
   vpc_id                     = local.vpc_id
