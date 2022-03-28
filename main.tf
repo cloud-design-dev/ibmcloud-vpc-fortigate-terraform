@@ -145,7 +145,7 @@ module "routing_table_updates" {
   vm1_subnet_id              = module.vm1_subnet.subnet_id
   vm2_subnet_id              = module.vm2_subnet.subnet_id
   vm1_subnet_cidr            = module.vm1_subnet.cidr_block
-  vm2_subnet_cidr            = module.vm1_subnet.cidr_block
+  vm2_subnet_cidr            = module.vm2_subnet.cidr_block
   vm1_subnet_routing_table   = module.fortigate.fgt_vm1_routing_table.routing_table
   vm2_subnet_routing_table   = module.fortigate.fgt_vm2_routing_table.routing_table
   vpc_id                     = local.vpc_id
