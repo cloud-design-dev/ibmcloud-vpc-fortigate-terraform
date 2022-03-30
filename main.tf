@@ -39,7 +39,7 @@ module "vpc" {
 }
 
 module "fortigate_port_1_subnet_public" {
-  count                     = var.existing_subnet_name != "" ? 0 : 1
+  count                     = var.existing_port1_subnet_name != "" ? 0 : 1
   depends_on                = [module.vpc]
   source                    = "./subnet"
   name                      = "${var.project_prefix}-port1-subnet"
@@ -52,6 +52,7 @@ module "fortigate_port_1_subnet_public" {
 }
 
 module "fortigate_port_2_subnet_private" {
+  count                     = var.existing_port2_subnet_name != "" ? 0 : 1
   source                    = "./subnet"
   name                      = "${var.project_prefix}-port2-subnet"
   vpc_id                    = local.vpc_id
