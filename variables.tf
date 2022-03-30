@@ -1,3 +1,5 @@
+variable "ibmcloud_api_key" {}
+
 variable "region" {
   description = "VPC region where resources will be deployed. Use 'ibm is regions` for a list of available options."
   type        = string
