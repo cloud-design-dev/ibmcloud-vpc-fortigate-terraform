@@ -13,7 +13,8 @@ data "ibm_is_ssh_key" "existing_key" {
 }
 
 data "ibm_resource_instance" "cos_instance" {
-  name              = var.cos_instance
+  count             = var.existing_cos_instance != "" ? 1 : 0
+  name              = var.existing_cos_instance
   resource_group_id = local.resource_group_id
   service           = "cloud-object-storage"
   location          = "global"

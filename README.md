@@ -18,7 +18,7 @@ List of required and optional variables for the lab environment:
 | ibmcloud\_api\_key | IBM Cloud API Key to use for the Terraform deployment. | `string` | n/a | yes |
 | region | Name that will be prepended to all deployed resources and used as a project tag. | `string` | n/a | yes |
 | project\_prefix | Name that will be prepended to all deployed resources and used as a project tag. | `string` | n/a | yes |
-| cos\_instance | Name of an existing COS instance to use for Flowlog buckets | `string` | n/a | yes |
+| existing\_cos\_instance | Name of an existing COS instance to use for Flowlog buckets. If no existing COS instance is provided, a new standard COS instance will be deployed. | `string` | n/a | no |
 | existing\_resource\_group\_name | Name of an existing Resource Group to associate with the deployed instances. If none provided, a new one will be created. | `string` | n/a | no |
 | existing\_vpc\_name | Name of an existing VPC. If none provided, a new one will be created. | `string` | n/a | no |
 | existing\_ssh\_key\_name | Name of an existing SSH Key to associate with the deployed instances. If none provided, a new one will be created. | `string` | n/a | no |
@@ -27,7 +27,6 @@ List of required and optional variables for the lab environment:
 | tags | Tags to add to all deployed resources | `string` | `deployed_from:terraform` | no |
 
 ## Outputs
-
 
 | Name | Description |
 |------|-------------|

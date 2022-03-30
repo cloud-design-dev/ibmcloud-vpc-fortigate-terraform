@@ -26,9 +26,10 @@ variable "existing_ssh_key_name" {
   type        = string
 }
 
-variable "cos_instance" {
+variable "existing_cos_instance" {
   description = "The COS instance where Flowlogs collector buckets will be created"
   type        = string
+  default     = ""
 }
 
 variable "existing_vpc_name" {
