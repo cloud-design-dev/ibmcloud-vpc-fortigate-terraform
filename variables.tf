@@ -37,8 +37,14 @@ variable "tags" {
   default     = ["deployed_from:terraform"]
 }
 
-variable "existing_subnet_name" {
+variable "existing_port1_subnet_name" {
   description = "Name of an existing Subnet to use for Port 1 of the Fortigate deployment. "
+  type        = string
+  default     = ""
+}
+
+variable "existing_port2_subnet_name" {
+  description = "Name of an existing Subnet to use for Port 2 of the Fortigate deployment. "
   type        = string
   default     = ""
 }

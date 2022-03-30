@@ -21,7 +21,8 @@ List of required and optional variables for the lab environment:
 | existing\_resource\_group\_name | Name of an existing Resource Group to associate with the deployed instances. If none provided, a new one will be created. | `string` | n/a | no |
 | existing\_vpc\_name | Name of an existing VPC. If none provided, a new one will be created. | `string` | n/a | no |
 | existing\_ssh\_key\_name | Name of an existing SSH Key to associate with the deployed instances. If none provided, a new one will be created. | `string` | n/a | no |
-| existing\_subnet\_name | Name of an existing VPC subnet to use for Port 1 (public) of the Fortigate VNF instance. If no existing subnet is provided, one is created for Port 1 on the VNF. | `string` | n/a | no |
+| existing\_port1\_subnet\_name | Name of an existing VPC subnet to use for Port 1 (public) of the Fortigate VNF instance. If no existing subnet is provided, one is created for Port 1 on the VNF. | `string` | n/a | no |
+| existing\_port2\_subnet\_name | Name of an existing VPC subnet to use for Port 2 (private) of the Fortigate VNF instance. If no existing subnet is provided, one is created for Port 2 on the VNF. | `string` | n/a | no |
 | tags | Tags to add to all deployed resources | `string` | `deployed_from:terraform` | no |
 
 ## Outputs

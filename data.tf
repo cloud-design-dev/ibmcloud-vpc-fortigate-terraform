@@ -24,7 +24,12 @@ data "ibm_is_vpc" "existing_vpc" {
   name  = var.existing_vpc_name
 }
 
-data "ibm_is_subnet" "existing_subnet" {
-  count = var.existing_subnet_name != "" ? 1 : 0
-  name  = var.existing_subnet_name
+data "ibm_is_subnet" "port1_existing_subnet" {
+  count = var.existing_port1_subnet_name != "" ? 1 : 0
+  name  = var.existing_port1_subnet_name
+}
+
+data "ibm_is_subnet" "port2_existing_subnet" {
+  count = var.existing_port2_subnet_name != "" ? 1 : 0
+  name  = var.existing_port2_subnet_name
 }
