@@ -1,9 +1,9 @@
 name: TF v1.0 validation
 
 on:
-  pull_request:
+  push:
     branches:
-      - existing-subnets
+      - 'rt-*'
 
 jobs:
   terraform_validate:
