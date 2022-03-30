@@ -5,7 +5,8 @@ locals {
   vpc_default_network_acl    = var.existing_vpc_name != "" ? data.ibm_is_vpc.existing_vpc.0.default_network_acl : module.vpc.0.vpc_info.default_network_acl
   vpc_default_routing_table  = var.existing_vpc_name != "" ? data.ibm_is_vpc.existing_vpc.0.default_routing_table : module.vpc.0.vpc_info.default_routing_table
   vpc_default_security_group = var.existing_vpc_name != "" ? data.ibm_is_vpc.existing_vpc.0.default_security_group : module.vpc.0.vpc_info.default_security_group
-  fortigate_port1_subnet_id  = var.existing_subnet_name != "" ? data.ibm_is_subnet.existing_subnet.0.id : module.fortigate_port_1_subnet_public.0.subnet_id
+  fortigate_port1_subnet_id  = var.existing_port1_subnet_name != "" ? data.ibm_is_subnet.port1_existing_subnet.0.id : module.fortigate_port_1_subnet_public.0.subnet_id
+  fortigate_port2_subnet_id  = var.existing_port2_subnet_name != "" ? data.ibm_is_subnet.port2_existing_subnet.0.id : module.fortigate_port_2_subnet_private.0.subnet_id
 }
 
 ## If no existing Resource Group name specified, a new one is created for the project
@@ -95,7 +96,7 @@ module "fortigate" {
   resource_group_id = local.resource_group_id
   zone              = data.ibm_is_zones.regional.zones[0]
   subnet1           = local.fortigate_port1_subnet_id
-  subnet2           = module.fortigate_port_2_subnet_private.subnet_id
+  subnet2           = local.fortigate_port2_subnet_id
   security_group    = local.vpc_default_security_group
 }
 
