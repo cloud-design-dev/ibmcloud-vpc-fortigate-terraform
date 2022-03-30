@@ -7,6 +7,7 @@ locals {
   vpc_default_security_group = var.existing_vpc_name != "" ? data.ibm_is_vpc.existing_vpc.0.default_security_group : module.vpc.0.vpc_info.default_security_group
   fortigate_port1_subnet_id  = var.existing_port1_subnet_name != "" ? data.ibm_is_subnet.port1_existing_subnet.0.id : module.fortigate_port_1_subnet_public.0.subnet_id
   fortigate_port2_subnet_id  = var.existing_port2_subnet_name != "" ? data.ibm_is_subnet.port2_existing_subnet.0.id : module.fortigate_port_2_subnet_private.0.subnet_id
+  cos_instance_id            = var.existing_cos_instance != "" ? data.ibm_resource_instance.cos_instance.0.id : ibm_resource_instance.new_cos.0.id
 }
 
 ## If no existing Resource Group name specified, a new one is created for the project
@@ -28,6 +29,17 @@ resource "ibm_is_ssh_key" "new_key" {
   public_key     = tls_private_key.ssh.public_key_openssh
   resource_group = local.resource_group_id
   tags           = concat(var.tags, ["region:${var.region}", "project:${var.project_prefix}"])
+}
+
+# If no existing COS instance exists, create one and use it for the Flowlog buckets
+resource "ibm_resource_instance" "new_cos" {
+  count             = var.existing_cos_instance != "" ? 0 : 1
+  name              = "${var.project_prefix}-cos-instance"
+  service           = "cloud-object-storage"
+  plan              = "standard"
+  location          = "global"
+  resource_group_id = local.resource_group_id
+  tags              = concat(var.tags, ["project:${var.project_prefix}"])
 }
 
 ## If no existing VPC is speficied, one will be created for this project.
@@ -141,7 +153,7 @@ module "flowlogs" {
   fortigate_port2_interface = module.fortigate.fortigate_instance_info.network_interfaces[0].id
   vm1_subnet                = module.vm1_subnet.subnet_id
   vm2_subnet                = module.vm2_subnet.subnet_id
-  cos_instance              = data.ibm_resource_instance.cos_instance.id
+  cos_instance              = local.cos_instance_id
   vpc_id                    = local.vpc_id
   resource_group_id         = local.resource_group_id
   region                    = var.region
