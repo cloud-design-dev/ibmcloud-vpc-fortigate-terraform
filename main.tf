@@ -16,6 +16,7 @@ resource "ibm_resource_group" "lab_new" {
   tags  = concat(var.tags, ["project:${var.project_prefix}"])
 }
 
+## Generate SSH key that will be added to existing keys
 resource "tls_private_key" "ssh" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -39,6 +40,7 @@ module "vpc" {
   tags              = concat(var.tags, ["region:${var.region}", "project:${var.project_prefix}"])
 }
 
+# If no existing subnet for port 1 of the VNF is defined, create one
 module "fortigate_port_1_subnet_public" {
   count                     = var.existing_port1_subnet_name != "" ? 0 : 1
   depends_on                = [module.vpc]
@@ -52,6 +54,7 @@ module "fortigate_port_1_subnet_public" {
   tags                      = concat(var.tags, ["zone:${data.ibm_is_zones.regional.zones[0]}", "region:${var.region}", "project:${var.project_prefix}"])
 }
 
+# If no existing subnet for port 2 of the VNF is defined, create one
 module "fortigate_port_2_subnet_private" {
   count                     = var.existing_port2_subnet_name != "" ? 0 : 1
   source                    = "./subnet"
@@ -64,6 +67,7 @@ module "fortigate_port_2_subnet_private" {
   tags                      = concat(var.tags, ["zone:${data.ibm_is_zones.regional.zones[0]}", "region:${var.region}", "project:${var.project_prefix}"])
 }
 
+# Create VM 1 subnet to show routing of networks through VNF. Future state this will be dependent on the variable `create_vms`. 
 module "vm1_subnet" {
   source                    = "./subnet"
   name                      = "${var.project_prefix}-vm1-subnet"
@@ -75,6 +79,7 @@ module "vm1_subnet" {
   tags                      = concat(var.tags, ["zone:${data.ibm_is_zones.regional.zones[0]}", "region:${var.region}", "project:${var.project_prefix}"])
 }
 
+# Create VM 2 subnet to show routing of networks through VNF. Future state this will be dependent on the variable `create_vms`. 
 module "vm2_subnet" {
   source                    = "./subnet"
   name                      = "${var.project_prefix}-vm2-subnet"
@@ -86,6 +91,7 @@ module "vm2_subnet" {
   tags                      = concat(var.tags, ["zone:${data.ibm_is_zones.regional.zones[0]}", "region:${var.region}", "project:${var.project_prefix}"])
 }
 
+# Create Fortigate VNF deployment using my fork of the official tf deployment
 module "fortigate" {
   depends_on        = [module.vpc]
   source            = "git::https://github.com/cloud-design-dev/ibm-fortigate-terraform-deploy.git"
@@ -100,6 +106,7 @@ module "fortigate" {
   security_group    = local.vpc_default_security_group
 }
 
+# Create VM 1 to show routing of networks through VNF. Future state this will be dependent on the variable `create_vms`. 
 module "vm1" {
   source            = "./compute"
   name              = "${var.project_prefix}-vm-1"
@@ -112,6 +119,7 @@ module "vm1" {
   tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional.zones[0]}", "region:${var.region}", "project:${var.project_prefix}"])
 }
 
+# Create VM 2 to show routing of networks through VNF. Future state this will be dependent on the variable `create_vms`. 
 module "vm2" {
   source            = "./compute"
   name              = "${var.project_prefix}-vm-2"
@@ -124,6 +132,7 @@ module "vm2" {
   tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional.zones[0]}", "region:${var.region}", "project:${var.project_prefix}"])
 }
 
+# Create flowlog buckets and associated collectors for VNF interfaces and VM subnets. Future state this will be dependent on the variable `create_flowlogs=true|false`. 
 module "flowlogs" {
   depends_on                = [module.fortigate]
   source                    = "./flowlogs"
@@ -139,6 +148,7 @@ module "flowlogs" {
   tags                      = concat(var.tags, ["region:${var.region}", "project:${var.project_prefix}"])
 }
 
+# Update routing table for VMs to route all traffic through VNF 
 module "routing_table_updates" {
   depends_on                 = [module.flowlogs]
   source                     = "./routing"
