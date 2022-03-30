@@ -40,3 +40,14 @@ resource "ibm_is_security_group_rule" "ftg_ui_https" {
     port_max = 443
   }
 }
+
+resource "ibm_is_security_group_rule" "ftg_icmp" {
+  depends_on = [ibm_is_vpc.lab]
+  group      = ibm_is_vpc.lab.default_security_group
+  direction  = "inbound"
+  remote     = "0.0.0.0/0"
+  icmp {
+    code = 0
+    type = 8
+  }
+}
