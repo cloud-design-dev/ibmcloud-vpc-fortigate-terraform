@@ -1,4 +1,8 @@
-variable "ibmcloud_api_key" {}
+variable "ibmcloud_api_key" {
+  description = "IBM Cloud API Key to use for the Terraform deployment."
+  type        = string
+  default     = ""
+}
 
 variable "region" {
   description = "VPC region where resources will be deployed. Use 'ibm is regions` for a list of available options."

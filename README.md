@@ -15,6 +15,7 @@ List of required and optional variables for the lab environment:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| ibmcloud\_api\_key | IBM Cloud API Key to use for the Terraform deployment. | `string` | n/a | yes |
 | region | Name that will be prepended to all deployed resources and used as a project tag. | `string` | n/a | yes |
 | project\_prefix | Name that will be prepended to all deployed resources and used as a project tag. | `string` | n/a | yes |
 | cos\_instance | Name of an existing COS instance to use for Flowlog buckets | `string` | n/a | yes |

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'rt-*'
+      - 'aa-*'
 
 jobs:
   terraform_validate:
