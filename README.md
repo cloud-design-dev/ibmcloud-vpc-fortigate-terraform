@@ -49,7 +49,7 @@ List of required and optional variables for the lab environment:
 #### 1. Clone project repository and target this branch
 
 ```sh
-git clone -b existing-vpc https://github.com/cloud-design-dev/ibmcloud-vpc-fortigate-terraform.git
+git clone https://github.com/cloud-design-dev/ibmcloud-vpc-fortigate-terraform.git
 cd ibmcloud-vpc-fortigate-terraform
 ```
 
