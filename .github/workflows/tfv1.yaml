@@ -36,11 +36,4 @@ jobs:
         run: terraform fmt -list=true -write=false -check -recursive
       -
         name: terraform plan check           # perform format checks
-        run: terraform plan 
-        with:
-          variables: |
-            existing_resource_group_name = "${{ secrets.EXISTING_RESOURCE_GROUP_NAME }}"
-            region = "${{ secrets.REGION}}"
-            IC_API_KEY = "${{ secrets.IC_API_KEY }}"
-            existing_ssh_key_name = "${{ secrets.EXISTING_SSH_KEY_NAME }}"
-            cos_instance = "${{ secrets.COS_INSTANCE }}"
+        run: terraform plan -var "existing_resource_group_name=${{ secrets.EXISTING_RESOURCE_GROUP_NAME }}" -var "region=${{ secrets.REGION}}" -var "IC_API_KEY=${{ secrets.API_KEY }}" -var "existing_ssh_key_name=${{ secrets.EXISTING_SSH_KEY_NAME }}" -var "cos_instance=${{ secrets.COS_INSTANCE }}"
