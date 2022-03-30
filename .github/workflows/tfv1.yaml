@@ -36,4 +36,4 @@ jobs:
         run: terraform fmt -list=true -write=false -check -recursive
       -
         name: terraform plan check           # perform format checks
-        run: terraform plan -var "existing_resource_group_name=${{ secrets.EXISTING_RESOURCE_GROUP_NAME }}" -var "region=${{ secrets.REGION}}" -var "ibmcloud_api_key=${{ secrets.IC_API_KEY }}" -var "existing_ssh_key_name=${{ secrets.EXISTING_SSH_KEY_NAME }}" -var "cos_instance=${{ secrets.COS_INSTANCE }}"
+        run: terraform plan -var "existing_resource_group_name=${{ secrets.EXISTING_RESOURCE_GROUP_NAME }}" -var "region=${{ secrets.REGION}}" -var "ibmcloud_api_key=${{ secrets.IC_API_KEY }}" -var "existing_ssh_key_name=${{ secrets.EXISTING_SSH_KEY_NAME }}" -var "project_prefix=${{ secrets.PROJECT_PREFIX }}" -var "cos_instance=${{ secrets.COS_INSTANCE }}"
