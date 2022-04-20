@@ -116,7 +116,7 @@ module "vm2" {
   vpc_id            = local.vpc_id
   resource_group_id = local.resource_group_id
   ssh_key           = local.ssh_key_ids
-  subnet_id         = module.vm2-subnet.subnet_id
+  subnet_id         = module.vm2_subnet.subnet_id
   zone              = data.ibm_is_zones.regional.zones[0]
   security_groups   = local.vpc_default_security_group
   tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional.zones[0]}", "region:${var.region}", "project:${var.project_prefix}"])
